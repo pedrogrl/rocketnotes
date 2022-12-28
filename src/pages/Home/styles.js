@@ -27,10 +27,18 @@ export const Brand = styled.div`
     color: ${({ theme }) => theme.COLORS.ORANGE};
   }
 `;
+
 export const Menu = styled.ul`
   grid-area: menu;
-  background-color: green;
+  background-color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
+  padding-top: 6.4rem;
+  text-align: center;
+
+  li {
+    margin-bottom: 2.4rem;
+  }
 `;
+
 export const Search = styled.div`
   grid-area: search;
   background-color: violet;

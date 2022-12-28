@@ -13,7 +13,7 @@ export default function Details() {
 
       <main>
         <Content>
-          <Anchor title="Excluir nota" />
+          <Anchor title="Excluir nota" isActive/>
 
           <h1>Introdução ao React</h1>
           <p>
@@ -38,7 +38,7 @@ export default function Details() {
           <Button title="Voltar" />
         </Content>
       </main>
-      
+
     </Container>
   );
 }

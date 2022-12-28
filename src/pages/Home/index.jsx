@@ -1,6 +1,7 @@
 import { Container, Brand, Menu, Search, Content, NewNote } from './styles.js'
 
 import Header from '../../components/Header/index.jsx'
+import Anchor from '../../components/Anchor/index.jsx'
 
 export default function Home() {
   return (
@@ -11,7 +12,11 @@ export default function Home() {
 
       <Header/>
 
-      <Menu></Menu>
+      <Menu>
+        <li><Anchor title="Todos" isActive/></li>
+        <li><Anchor title="React"/></li>
+        <li><Anchor title="Nodejs"/></li>
+      </Menu>
 
       <Search></Search>
 

@@ -1,8 +1,8 @@
 import { Container } from "./styles";
 
-export default function Anchor({ title, ...rest }) {
+export default function Anchor({ title, isActive = false, ...rest }) {
   return (
-    <Container type="button" {...rest}>
+    <Container type="button" isActive={isActive} {...rest}>
       {title}
     </Container>
   );
