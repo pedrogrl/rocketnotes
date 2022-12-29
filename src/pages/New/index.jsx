@@ -7,6 +7,8 @@ import Textarea from "../../components/Textarea";
 
 import { Container, Form } from "./styles";
 
+import { Link } from "react-router-dom";
+
 export default function New() {
   return (
     <Container>
@@ -16,7 +18,7 @@ export default function New() {
         <Form>
           <header>
             <h1>Criar Nota</h1>
-            <a href="/">Voltar</a>
+            <Link to="/">Voltar</Link>
           </header>
 
           <Input placeholder="Título" />

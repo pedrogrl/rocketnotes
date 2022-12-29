@@ -3,13 +3,15 @@ import Button from "../../components/Button"
 import Input from "../../components/Input"
 import { Container, Form, Avatar } from "./styles"
 
+import { Link } from "react-router-dom"
+
 export default function Profile() {
   return (
     <Container>
       <header>
-        <a href="/">
+        <Link to="/">
           <FiArrowLeft/>
-        </a>
+        </Link>
       </header>
 
       <Form>
@@ -25,7 +27,7 @@ export default function Profile() {
             <input type="file" id="avatar"/>
           </label>
         </Avatar>
-        
+
         <Input 
           placeholder="Nome"
           type="text"
