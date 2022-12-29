@@ -20,9 +20,9 @@ export const Container = styled.div`
     &::placeholder{
       color: ${({theme}) => theme.COLORS.GRAY_300};
     }
-    
-    svg {
+  }
+  
+  svg {
       margin-left: 1.6rem;
     }
-  }
 `
