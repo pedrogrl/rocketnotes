@@ -3,7 +3,6 @@ import Button from "../../components/Button";
 import {FiMail, FiLock } from 'react-icons/fi'
 
 import { Background, Container, Form } from "./styles";
-import Anchor from "../../components/Anchor";
 
 export default function SignIn() {
   return (
