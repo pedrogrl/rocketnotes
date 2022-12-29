@@ -1,3 +1,4 @@
+import Button from "../../components/Button";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
 import NoteItem from "../../components/NoteItem";
@@ -26,6 +27,15 @@ export default function New() {
             <NoteItem value="https://github.com" />
             <NoteItem isNew placeholder="Novo link" />
           </Section>
+
+          <Section title="Marcadores">
+            <div className="tags">
+              <NoteItem value="https://github.com" />
+              <NoteItem isNew placeholder="Nova tag" />
+            </div>       
+          </Section>
+
+          <Button title="Salvar"/>
         </Form>
       </main>
     </Container>
