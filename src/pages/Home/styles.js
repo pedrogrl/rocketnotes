@@ -12,6 +12,10 @@ export const Container = styled.div`
     "menu content"
     "newnote content";
   background-color: ${({ theme }) => theme.COLORS.BACKGROUND_800};
+
+  svg {
+    margin-left: 0.8rem;
+  }
 `;
 
 export const Brand = styled.div`
@@ -41,7 +45,7 @@ export const Menu = styled.ul`
 
 export const Search = styled.div`
   grid-area: search;
-  background-color: violet;
+  padding: 6.4rem 6.4rem 0;
 `;
 export const Content = styled.div`
   grid-area: content;
@@ -56,7 +60,5 @@ export const NewNote = styled.button`
   align-items: center;
   justify-content: center;
 
-  svg {
-    margin-right: 0.8rem;
-  }
+  
 `;
