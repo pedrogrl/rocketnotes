@@ -6,39 +6,66 @@ import Tag from "../../components/Tag/index.jsx";
 
 import { Container, Content, Links } from "./styles.js";
 
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { api } from "../../services/api.js";
+
 export default function Details() {
+  const [data, setData] = useState(null);
+
+  const navigate = useNavigate();
+  const params = useParams();
+
+  function handleBack() {
+    navigate("/");
+  }
+
+  useEffect(() => {
+    async function fetchNote() {
+      const response = await api.get(`/notes/${params.id}`);
+      setData(response.data);
+    }
+
+    fetchNote();
+  }, []);
+
   return (
     <Container>
       <Header />
+      {data && (
+        <main>
+          <Content>
+            <Anchor title="Excluir nota" isActive />
 
-      <main>
-        <Content>
-          <Anchor title="Excluir nota" isActive/>
+            <h1>{data.title}</h1>
+            <p>{data.description}</p>
 
-          <h1>Introdução ao React</h1>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis
-            asperiores, modi fuga minus iure possimus eius molestias esse odit
-            magni assumenda commodi dolor enim sapiente harum necessitatibus
-            tenetur earum qui.
-          </p>
+            {data.links && (
+              <Section title="Links úteis">
+                <Links>
+                  {data.links.map((link) => (
+                    <li key={String(link.id)}>
+                      <a href={link.url} target="_blank">
+                        {link.url}
+                      </a>
+                    </li>
+                  ))}
+                </Links>
+              </Section>
+            )}
 
-          <Section title="Links úteis">
-            <Links>
-              <li><a href="#">https://github.com/</a></li>
-              <li><a href="#">https://github.com/</a></li>
-            </Links>
-          </Section>
+            {data.tags && (
+              <Section title="Marcadores">
+                {data.tags.map((tag) => (
+                  <Tag key={String(tag.id)} title={tag.name} />
+                ))}
+              </Section>
+            )}
 
-          <Section title="Marcadores">
-            <Tag title="express" />
-            <Tag title="nodejs" />
-          </Section>
-
-          <Button title="Voltar" />
-        </Content>
-      </main>
-
+            <Button title="Voltar" onClick={handleBack} />
+          </Content>
+        </main>
+      )}
     </Container>
   );
 }
