@@ -8,7 +8,32 @@ import Note from "../../components/Note/index.jsx";
 import Section from "../../components/Section/index.jsx";
 import Tag from "../../components/Tag/index.jsx";
 
+import { useEffect, useState } from "react";
+import { api } from "../../services/api.js";
+
 export default function Home() {
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  function handleTagSelected(tagName) {
+    const alreadySelected = selectedTags.includes(tagName);
+    if (alreadySelected) {
+      const filteredTags = selectedTags.filter((tag) => tag != tagName);
+      return setSelectedTags(filteredTags);
+    }
+
+    setSelectedTags((prevState) => [...prevState, tagName]);
+  }
+
+  useEffect(() => {
+    async function fetchTags() {
+      const response = await api.get("/tags");
+      setTags(response.data);
+    }
+
+    fetchTags();
+  }, []);
+
   return (
     <Container>
       <Brand>
@@ -18,9 +43,24 @@ export default function Home() {
       <Header />
 
       <Menu>
-        <li><Anchor title="Todos" isActive /></li>
-        <li><Anchor title="React" /></li>
-        <li><Anchor title="Nodejs" /></li>
+        <li>
+          <Anchor
+            title="Todos"
+            isActive={selectedTags.length === 0}
+            onClick={() => handleTagSelected("all")}
+          />
+        </li>
+
+        {tags &&
+          tags.map((tag) => (
+            <li key={String(tag.id)}>
+              <Anchor
+                title={tag.name}
+                onClick={() => handleTagSelected(tag.name)}
+                isActive={selectedTags.includes(tag.name)}
+              />
+            </li>
+          ))}
       </Menu>
 
       <Search>
@@ -29,17 +69,18 @@ export default function Home() {
 
       <Content>
         <Section title="Minhas notas">
-          <Note data={{
-            title: 'React', 
-            tags: [
-              {id: '1', name: 'react'},
-              {id: '2', name: 'front-end'},
-            ]
+          <Note
+            data={{
+              title: "React",
+              tags: [
+                { id: "1", name: "react" },
+                { id: "2", name: "front-end" },
+              ],
             }}
           />
         </Section>
       </Content>
-        
+
       <NewNote to="/new">
         <FiPlus />
         Criar nota
