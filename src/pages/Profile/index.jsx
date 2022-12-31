@@ -1,4 +1,6 @@
 import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from "react-icons/fi";
+import AvatarPlaceholder from '../../assets/avatar_placeholder.svg'
+
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { Container, Form, Avatar } from "./styles";
@@ -6,14 +8,38 @@ import { Container, Form, Avatar } from "./styles";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../hooks/auth";
+import { api } from "../../services/api";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
+
+  const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : AvatarPlaceholder
+  const [avatar, setAvatar] = useState(avatarUrl);
+  const [avatarFile, setAvatarFile] = useState(null);
 
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [oldPassword, setOldPassword] = useState();
   const [newPassword, setNewPassword] = useState();
+
+  async function handleUpdate() {
+    const user = {
+      name,
+      email,
+      password: newPassword,
+      old_password: oldPassword,
+    };
+
+    await updateProfile({ user, avatarFile });
+  }
+
+  function handleChangeAvatar(ev) {
+    const file = ev.target.files[0];
+    setAvatarFile(file);
+
+    const imagePreview = URL.createObjectURL(file);
+    setAvatar(imagePreview);
+  }
 
   return (
     <Container>
@@ -25,12 +51,12 @@ export default function Profile() {
 
       <Form>
         <Avatar>
-          <img src="https://github.com/pedrogrl.png" alt="Imagem do usuário" />
+          <img src={avatar} alt="Imagem do usuário" />
 
           <label htmlFor="avatar">
             <FiCamera />
 
-            <input type="file" id="avatar" />
+            <input type="file" id="avatar" onChange={handleChangeAvatar} />
           </label>
         </Avatar>
 
@@ -64,7 +90,7 @@ export default function Profile() {
           onChange={(ev) => setNewPassword(ev.target.value)}
         />
 
-        <Button title="Salvar" />
+        <Button title="Salvar" onClick={handleUpdate} />
       </Form>
     </Container>
   );

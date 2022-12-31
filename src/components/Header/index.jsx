@@ -1,17 +1,20 @@
 import { RiShutDownLine } from "react-icons/ri";
 import { Container, Profile, Logout } from "./styles";
 import { useAuth } from "../../hooks/auth";
+import { api } from "../../services/api";
 
 export default function Header() {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : AvatarPlaceholder
+
   return (
     <Container>
       <Profile to="/profile">
-        <img src="https://github.com/pedrogrl.png" alt="Imagem do usuário" />
+        <img src={avatarUrl} alt="Imagem do usuário" />
 
         <div>
           <span>Bem-vindo,</span>
-          <strong>Pedro Oliveira</strong>
+          <strong>{user.name}</strong>
         </div>
       </Profile>
 
