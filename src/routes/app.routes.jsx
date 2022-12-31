@@ -5,7 +5,7 @@ import New from "../pages/New";
 import Details from "../pages/Details";
 import Profile from "../pages/Profile";
 
-export default function AppRoutes() {
+export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />

@@ -6,7 +6,7 @@ import { Background, Container, Form } from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import api from "../../services/api";
+import { api } from "../../services/api";
 
 export default function SignUp() {
   const [name, setName] = useState("");
