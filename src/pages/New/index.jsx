@@ -8,12 +8,25 @@ import Textarea from "../../components/Textarea";
 import { Container, Form } from "./styles";
 
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function New() {
+  const [links, setLinks] = useState([]);
+  const [newLink, setNewLink] = useState("");
+
+  function handleAddLink() {
+    setLinks((prevState) => [...prevState, newLink]);
+    setNewLink("");
+  }
+
+  function handleRemoveLink(deletedLink) {
+    setLinks(prevstate => prevstate.filter(link => link != deletedLink))
+  }
+
   return (
     <Container>
-      <Header/>
-  
+      <Header />
+
       <main>
         <Form>
           <header>
@@ -26,20 +39,34 @@ export default function New() {
           <Textarea placeholder="Observações" />
 
           <Section title="Links úteis">
-            <NoteItem value="https://github.com" />
-            <NoteItem isNew placeholder="Novo link" />
+            {
+              links.map((link, index) => (
+                <NoteItem
+                  key={index}
+                  value={link}
+                  onClick={() => handleRemoveLink(link)}
+                />
+              ))
+            }
+            <NoteItem
+              isNew
+              placeholder="Novo link"
+              value={newLink}
+              onChange={(ev) => setNewLink(ev.target.value)}
+              onClick={handleAddLink}
+            />
           </Section>
 
           <Section title="Marcadores">
             <div className="tags">
               <NoteItem value="https://github.com" />
               <NoteItem isNew placeholder="Nova tag" />
-            </div>       
+            </div>
           </Section>
 
-          <Button title="Salvar"/>
+          <Button title="Salvar" />
         </Form>
       </main>
     </Container>
-  )
+  );
 }
