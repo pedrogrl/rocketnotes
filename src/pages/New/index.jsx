@@ -7,15 +7,21 @@ import Textarea from "../../components/Textarea";
 
 import { Container, Form } from "./styles";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { api } from "../../services/api";
 
 export default function New() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   const [links, setLinks] = useState([]);
   const [newLink, setNewLink] = useState("");
 
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
+
+  const navigate = useNavigate();
 
   function handleAddLink() {
     setLinks((prevState) => [...prevState, newLink]);
@@ -35,6 +41,22 @@ export default function New() {
     setTags((prevState) => prevState.filter((tag) => tag != deletedTag));
   }
 
+  async function handleNewNote() {
+    if (!title) {
+      return alert("Digite o título da nota.");
+    }
+
+    await api.post("/notes", {
+      title,
+      description,
+      tags,
+      links,
+    });
+
+    alert("Nota criada com sucesso!");
+    navigate("/");
+  }
+
   return (
     <Container>
       <Header />
@@ -46,9 +68,15 @@ export default function New() {
             <Link to="/">Voltar</Link>
           </header>
 
-          <Input placeholder="Título" />
+          <Input
+            placeholder="Título"
+            onChange={(ev) => setTitle(ev.target.value)}
+          />
 
-          <Textarea placeholder="Observações" />
+          <Textarea
+            placeholder="Observações"
+            onChange={(ev) => setDescription(ev.target.value)}
+          />
 
           <Section title="Links úteis">
             {links.map((link, index) => (
@@ -87,7 +115,7 @@ export default function New() {
             </div>
           </Section>
 
-          <Button title="Salvar" />
+          <Button title="Salvar" onClick={handleNewNote} />
         </Form>
       </main>
     </Container>
